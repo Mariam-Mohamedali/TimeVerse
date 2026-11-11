@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="TimeVerse.Application/TimeVerse.Application.csproj" />
+  <Project Path="TimeVerse.Domain/TimeVerse.Domain.csproj" />
+  <Project Path="TimeVerse.Infrastructure/TimeVerse.Infrastructure.csproj" />
+  <Project Path="TimeVerse/TimeVerse.csproj" />
+</Solution>

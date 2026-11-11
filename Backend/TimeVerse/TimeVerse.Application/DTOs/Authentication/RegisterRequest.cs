@@ -1,0 +1,13 @@
+﻿
+namespace TimeVerse.Application.DTOs.Authentication;
+
+public class RegisterRequest
+{
+    public string FullName { get; set; } = string.Empty;
+
+    public string Email { get; set; } = string.Empty;
+
+    public string Password { get; set; } = string.Empty;
+
+    public string ConfirmPassword { get; set; } = string.Empty; //willnot be recorded in database , just for validation
+}
