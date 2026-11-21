@@ -7,11 +7,24 @@ using Microsoft.OpenApi;
 using System.Text;
 using Hangfire;
 using TimeVerse.Infrastructure.BackgroundJobs;
+using Microsoft.EntityFrameworkCore;
+using TimeVerse.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
+
+// Enable CORS for frontend communication (port 3000, 5000, 5500, file://, etc.)
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowTimeVerseFrontend", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -73,6 +86,13 @@ builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
+// Auto-apply EF Core database migrations on startup
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    dbContext.Database.Migrate();
+}
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -81,7 +101,7 @@ if (app.Environment.IsDevelopment())
     app.UseHangfireDashboard();
 }
 
-app.UseHttpsRedirection();
+app.UseCors("AllowTimeVerseFrontend");
 
 app.UseAuthentication();
 app.UseAuthorization();

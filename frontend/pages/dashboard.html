@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TimeVerse — Dashboard</title>
+  <meta name="description" content="Your cosmic study command center — TimeVerse Dashboard" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="../css/global.css?v=3.3" />
+  <link rel="stylesheet" href="../css/components.css?v=3.3" />
+  <link rel="stylesheet" href="../css/pages/dashboard.css?v=3.3" />
+</head>
+<body>
+<div id="loading-screen" class="loading-screen">
+  <div class="spinner spinner-lg"></div>
+  <p class="text-muted loading-msg">Powering up the Infinity Stones…</p>
+</div>
+<div class="bg-blobs"></div>
+
+<div class="app-layout" id="app">
+  <div class="main-content">
+    <main class="page-container page-enter" id="page-main">
+
+      <!-- Hero Banner -->
+      <div class="hero-banner">
+        <div class="hero-text">
+          <div class="hero-greeting" id="greeting-text">Good Morning, Student</div>
+          <div class="hero-sub" id="hero-date">Loading…</div>
+        </div>
+        <div class="hero-stones">
+          <div class="hero-stone hero-stone--space">🔵</div>
+          <div class="hero-stone hero-stone--mind">🟡</div>
+          <div class="hero-stone hero-stone--reality">🔴</div>
+          <div class="hero-stone hero-stone--power">🟣</div>
+          <div class="hero-stone hero-stone--time">🟢</div>
+          <div class="hero-stone hero-stone--soul">🟠</div>
+        </div>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="stats-grid stagger" id="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon purple">📚</div>
+          <div>
+            <div class="stat-value" id="stat-courses">—</div>
+            <div class="stat-label">Total Courses</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon orange">📋</div>
+          <div>
+            <div class="stat-value" id="stat-tasks">—</div>
+            <div class="stat-label">Pending Tasks</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon red">📝</div>
+          <div>
+            <div class="stat-value" id="stat-exams">—</div>
+            <div class="stat-label">Upcoming Exams</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green">✅</div>
+          <div>
+            <div class="stat-value" id="stat-done">—</div>
+            <div class="stat-label">Completed Tasks</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content Grid -->
+      <div class="content-grid">
+
+        <!-- Left Column: Today's Schedule & Recent Notifications -->
+        <div class="left-col">
+          <!-- Today's Schedule -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">📅 Today's Schedule</div>
+                <div class="card-subtitle" id="today-label">Loading…</div>
+              </div>
+              <a href="schedule.html" class="btn btn-sm btn-ghost">View All →</a>
+            </div>
+            <div class="timeline-wrap stagger" id="today-timeline">
+              <div class="empty-state empty-state--padded">
+                <div class="empty-icon">🗓️</div>
+                <div class="empty-title">No events today</div>
+                <div class="empty-desc">You're free to study!</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Notifications -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">🔔 Recent Notifications</div>
+                <div class="card-subtitle">Latest updates &amp; reminders</div>
+              </div>
+              <button class="btn btn-sm btn-ghost" onclick="markAllNotifRead()">Mark all read</button>
+            </div>
+            <div class="notif-feed-list" id="dashboard-notif-list">
+              <div class="empty-state empty-state--padded-sm">
+                <div class="empty-icon">🔔</div>
+                <div class="empty-title">All caught up!</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Progress & Deadlines -->
+        <div class="right-col">
+
+          <!-- Progress Ring -->
+          <div class="card ring-card">
+            <div class="card-header ring-card-header">
+              <div class="card-title">Task Progress</div>
+            </div>
+            <div class="progress-block">
+              <div class="progress-ring-container">
+                <svg width="120" height="120">
+                  <circle class="progress-ring-bg" cx="60" cy="60" r="50" fill="none" stroke-width="8"/>
+                  <circle class="progress-ring-fill" cx="60" cy="60" r="50" fill="none" stroke-width="8"
+                    stroke-dasharray="314" stroke-dashoffset="314" id="ring-fill"/>
+                </svg>
+                <div class="progress-ring-label">
+                  <div class="progress-ring-pct" id="ring-pct">0%</div>
+                  <div class="progress-ring-sub">Done</div>
+                </div>
+              </div>
+              <div class="ring-labels">
+                <div class="ring-label-item">
+                  <div class="ring-label-val text-time" id="ring-done">0</div>
+                  <div class="ring-label-txt">Completed</div>
+                </div>
+                <div class="ring-label-item">
+                  <div class="ring-label-val text-soul" id="ring-total">0</div>
+                  <div class="ring-label-txt">Total</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Upcoming Deadlines -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">⏰ Upcoming Deadlines</div>
+              <a href="tasks.html" class="btn btn-sm btn-ghost">All →</a>
+            </div>
+            <div class="deadline-list" id="deadline-list">
+              <div class="empty-state empty-state--padded-sm">
+                <div class="empty-icon">🎉</div>
+                <div class="empty-title">No upcoming deadlines</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+
+<script src="../js/api.js?v=3.3"></script>
+<script src="../js/utils.js?v=3.3"></script>
+<script src="../js/pages/dashboard.js?v=3.3"></script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+/* ═══════════════════════════════════════════════════════════════
+   index.css  —  Splash / Landing entry styles
+   ═══════════════════════════════════════════════════════════════ */
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.splash {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-5);
+  text-align: center;
+}
+
+.splash-logo {
+  width: 90px;
+  height: 90px;
+  border-radius: 28px;
+  background: var(--grad-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.8rem;
+  box-shadow: 0 8px 48px var(--clr-primary-glow), 0 0 100px rgba(155, 48, 217, .2);
+  animation: float 2.5s ease-in-out infinite, glow-pulse 2.5s ease-in-out infinite;
+}
+
+.splash-name {
+  font-family: var(--font-display);
+  font-size: var(--fs-3xl);
+  font-weight: 900;
+  letter-spacing: .06em;
+  background: var(--grad-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.splash-sub {
+  font-size: 11px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--clr-text-faint);
+}
+
+.stones-preview {
+  display: flex;
+  gap: var(--sp-3);
+  margin-top: var(--sp-2);
+}
+
+.sp-stone {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  animation: float 3s ease-in-out infinite;
+}
+
+.sp-stone--space {
+  background: var(--stone-space);
+  box-shadow: 0 0 10px var(--glow-space);
+  animation-delay: 0s;
+}
+
+.sp-stone--mind {
+  background: var(--stone-mind);
+  box-shadow: 0 0 10px var(--glow-mind);
+  animation-delay: .4s;
+}
+
+.sp-stone--reality {
+  background: var(--stone-reality);
+  box-shadow: 0 0 10px var(--glow-reality);
+  animation-delay: .8s;
+}
+
+.sp-stone--power {
+  background: var(--stone-power);
+  box-shadow: 0 0 10px var(--glow-power);
+  animation-delay: 1.2s;
+}
+
+.sp-stone--time {
+  background: var(--stone-time);
+  box-shadow: 0 0 10px var(--glow-time);
+  animation-delay: 1.6s;
+}
+
+.sp-stone--soul {
+  background: var(--stone-soul);
+  box-shadow: 0 0 10px var(--glow-soul);
+  animation-delay: 2.0s;
+}
+
+.splash-spinner {
+  margin-top: var(--sp-4);
+}

@@ -1,0 +1,130 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TimeVerse — My Courses</title>
+  <meta name="description" content="Manage your enrolled courses — TimeVerse" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="../css/global.css?v=3.3" />
+  <link rel="stylesheet" href="../css/components.css?v=3.3" />
+  <link rel="stylesheet" href="../css/pages/courses.css?v=3.3" />
+</head>
+<body>
+
+<!-- Loading Screen -->
+<div id="loading-screen" class="loading-screen">
+  <div class="spinner spinner-lg"></div>
+  <p class="text-muted loading-msg">Loading your courses…</p>
+</div>
+<div class="bg-blobs"></div>
+
+<!-- App Layout -->
+<div class="app-layout" id="app">
+  <div class="main-content">
+    <main class="page-container page-enter" id="page-main">
+
+      <!-- Page Header -->
+      <div class="courses-page-header">
+        <div>
+          <h1>📚 My Courses</h1>
+          <p>Manage your enrolled courses &amp; curriculum</p>
+        </div>
+        <button class="btn btn-primary" onclick="openAddCourse()">
+          <span class="btn-icon-prefix">＋</span> Add Course
+        </button>
+      </div>
+
+      <!-- Stats Row -->
+      <div class="courses-stats stagger" id="courses-stats">
+        <div class="stat-card">
+          <div class="stat-icon blue">📚</div>
+          <div>
+            <div class="stat-value" id="stat-total">—</div>
+            <div class="stat-label">Total Courses</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon purple">🗓️</div>
+          <div>
+            <div class="stat-value" id="stat-lectures">—</div>
+            <div class="stat-label">Scheduled Lectures</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon red">📝</div>
+          <div>
+            <div class="stat-value" id="stat-exams">—</div>
+            <div class="stat-label">Upcoming Exams</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Course Cards Grid -->
+      <div class="courses-grid stagger" id="courses-grid">
+        <div class="courses-empty empty-state">
+          <div class="empty-icon">📭</div>
+          <div class="empty-title">No courses yet</div>
+          <div class="empty-desc">Click "Add Course" to enroll in your first course.</div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast-container"></div>
+
+<!-- Add / Edit Course Modal -->
+<div class="modal-overlay hidden" id="course-modal" onclick="closeModalOnOverlay(event)">
+  <div class="modal modal-courses-dialog">
+    <div class="modal-header">
+      <h2 class="modal-title" id="course-modal-title">Add New Course</h2>
+      <button class="modal-close" onclick="closeModal('course-modal')">✕</button>
+    </div>
+    <div class="modal-body modal-courses-body">
+
+      <div class="banner-preview" id="banner-preview">
+        <span id="banner-emoji-preview">📚</span>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Course Name *</label>
+        <input type="text" id="c-name" class="form-input" placeholder="e.g. Data Structures &amp; Algorithms" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Description / Syllabus</label>
+        <textarea id="c-desc" class="form-textarea" placeholder="Key concepts, syllabus topics, and notes…"></textarea>
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('course-modal')">Cancel</button>
+      <button class="btn btn-primary" id="save-course-btn" onclick="saveCourse()">Save Course</button>
+    </div>
+  </div>
+</div>
+
+<!-- Course Details Modal -->
+<div class="modal-overlay hidden" id="course-details-modal" onclick="closeModalOnOverlay(event)">
+  <div class="modal modal-courses-dialog">
+    <div class="modal-header">
+      <h2 class="modal-title" id="details-course-name">Course Details</h2>
+      <button class="modal-close" onclick="closeModal('course-details-modal')">✕</button>
+    </div>
+    <div class="modal-body modal-courses-body" id="details-course-body">
+      <!-- Populated dynamically -->
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" onclick="closeModal('course-details-modal')">Close</button>
+    </div>
+  </div>
+</div>
+
+<script src="../js/api.js?v=3.3"></script>
+<script src="../js/utils.js?v=3.3"></script>
+<script src="../js/pages/courses.js?v=3.3"></script>
+</body>
+</html>

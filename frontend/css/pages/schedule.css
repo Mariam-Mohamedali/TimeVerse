@@ -1,0 +1,261 @@
+/* ═══════════════════════════════════════════════════════════════
+   schedule.css  —  Weekly timetable and exam schedule styles
+   ═══════════════════════════════════════════════════════════════ */
+
+.schedule-grid {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: var(--sp-6);
+  align-items: start;
+}
+
+/* ── Week Grid ── */
+.timetable-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.timetable-card-header {
+  padding: var(--sp-5);
+  border-bottom: 1px solid var(--clr-border);
+}
+
+.week-wrap {
+  background: var(--grad-card);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--r-xl);
+  overflow: hidden;
+}
+
+.week-header {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  border-bottom: 1px solid var(--clr-border);
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.week-day-col-hdr {
+  padding: var(--sp-3) var(--sp-2);
+  text-align: center;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--clr-text-faint);
+}
+
+.week-day-col-hdr.today {
+  color: var(--stone-power);
+}
+
+.week-body {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+}
+
+.week-day-col {
+  border-left: 1px solid rgba(255, 255, 255, 0.04);
+  min-height: 300px;
+  padding: var(--sp-2);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.week-day-col:first-child {
+  border-left: none;
+}
+
+.lecture-pill {
+  border-radius: var(--r-md);
+  padding: 8px 10px;
+  cursor: pointer;
+  transition: all var(--t-fast);
+  position: relative;
+  overflow: hidden;
+  background: rgba(155, 48, 217, 0.12);
+  border: 1px solid rgba(155, 48, 217, 0.35);
+  color: var(--stone-power);
+}
+
+.lecture-pill::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 3px;
+  border-radius: var(--r-sm) 0 0 var(--r-sm);
+  background: currentColor;
+}
+
+.lecture-pill:hover {
+  filter: brightness(1.15);
+  transform: scale(1.02);
+}
+
+.lecture-pill-name {
+  font-size: 11px;
+  font-weight: 800;
+  margin-bottom: 2px;
+  padding-right: 20px;
+}
+
+.lecture-pill-time {
+  font-size: 9px;
+  opacity: .75;
+}
+
+.lecture-pill-loc {
+  font-size: 9px;
+  opacity: .6;
+  margin-top: 2px;
+}
+
+.lecture-pill-actions {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  display: none;
+  gap: 3px;
+}
+
+.lecture-pill:hover .lecture-pill-actions {
+  display: flex;
+}
+
+.lecture-del-btn {
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.4);
+  border: none;
+  color: #fff;
+  font-size: 9px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lecture-del-btn:hover {
+  background: rgba(230, 50, 0, 0.8);
+}
+
+/* ── Exam list ── */
+.exams-side-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+.exam-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.exam-item {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--r-lg);
+  transition: all var(--t-base);
+}
+
+.exam-item:hover {
+  background: var(--clr-card-hover);
+  border-color: var(--clr-border-hover);
+}
+
+.exam-countdown {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--r-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-weight: 900;
+  line-height: 1.1;
+}
+
+.exam-countdown .num {
+  font-size: var(--fs-lg);
+}
+
+.exam-countdown .lbl {
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+.exam-countdown--urgent {
+  background: rgba(230, 50, 0, 0.15);
+  color: var(--stone-reality);
+}
+
+.exam-countdown--soon {
+  background: rgba(240, 120, 32, 0.15);
+  color: var(--stone-soul);
+}
+
+.exam-countdown--normal {
+  background: rgba(0, 212, 106, 0.12);
+  color: var(--stone-time);
+}
+
+.exam-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.exam-name {
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.exam-meta {
+  font-size: 10px;
+  color: var(--clr-text-faint);
+  margin-top: 2px;
+}
+
+.exam-notes {
+  margin-top: 2px;
+  font-style: italic;
+}
+
+.exam-del {
+  opacity: 0;
+  transition: opacity var(--t-fast);
+}
+
+.exam-item:hover .exam-del {
+  opacity: 1;
+}
+
+.btn-row {
+  display: flex;
+  gap: var(--sp-3);
+}
+
+@media (max-width: 1050px) {
+  .schedule-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .week-header,
+  .week-body {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

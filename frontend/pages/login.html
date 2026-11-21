@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TimeVerse — Sign In</title>
+  <meta name="description" content="Sign in to TimeVerse — the Marvel-themed student scheduling app" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="../css/global.css?v=3.3" />
+  <link rel="stylesheet" href="../css/pages/login.css?v=3.3" />
+</head>
+
+<body>
+  <div class="bg-blobs"></div>
+
+  <!-- Hero side -->
+  <div class="login-left">
+    <div class="hero-content">
+      <div class="hero-logo-wrap">
+        <div class="hero-logo">⏳</div>
+      </div>
+      <div class="hero-title">TimeVerse</div>
+      <div class="hero-subtitle">Colours of Infinity</div>
+      <p class="hero-desc">
+        Master your academic timeline using the power of the<br />
+        Six Infinity Stones. Schedule lectures, track deadlines,<br />
+        plan study sessions all in one cosmic dashboard.
+      </p>
+
+      <div class="stones-row">
+        <div class="stone stone-sp" data-name="Space">🔵</div>
+        <div class="stone stone-mi" data-name="Mind">🟡</div>
+        <div class="stone stone-re" data-name="Reality">🔴</div>
+        <div class="stone stone-po" data-name="Power">🟣</div>
+        <div class="stone stone-ti" data-name="Time">🟢</div>
+        <div class="stone stone-so" data-name="Soul">🟠</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form side -->
+  <div class="login-right">
+    <div class="form-card">
+      <div class="form-card-logo">
+        <div class="form-card-logo-icon">⏳</div>
+        <div class="form-card-logo-text">
+          <div class="name">TimeVerse</div>
+          <div class="sub">Student Portal</div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="auth-tabs">
+        <button class="auth-tab-btn active" id="tab-login-btn" onclick="switchTab('login')">Sign In</button>
+        <button class="auth-tab-btn" id="tab-register-btn" onclick="switchTab('register')">Register</button>
+      </div>
+
+      <!-- Sign In Form -->
+      <div class="tab-panel active" id="panel-login">
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input id="login-email" type="email" class="form-input" placeholder="your@email.com" autocomplete="email" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input id="login-password" type="password" class="form-input" placeholder="••••••••" />
+        </div>
+        <button class="btn btn-primary btn-full" onclick="handleLogin()" id="login-btn">
+          ⚡ Sign In
+        </button>
+        <div class="divider"><span>or</span></div>
+        <button class="demo-btn" onclick="demoLogin()">🎭 Quick Demo Login</button>
+      </div>
+
+      <!-- Register Form -->
+      <div class="tab-panel" id="panel-register">
+        <div class="form-group">
+          <label class="form-label">Full Name</label>
+          <input id="reg-name" type="text" class="form-input" placeholder="Tony Stark" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input id="reg-email" type="email" class="form-input" placeholder="your@email.com" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input id="reg-password" type="password" class="form-input" placeholder="Min. 6 characters" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Confirm Password</label>
+          <input id="reg-confirm" type="password" class="form-input" placeholder="Re-enter password" />
+        </div>
+        <button class="btn btn-primary btn-full" onclick="handleRegister()" id="reg-btn">
+          🚀 Create Account
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script src="../js/api.js?v=3.3"></script>
+  <script src="../js/utils.js?v=3.3"></script>
+  <script src="../js/pages/login.js?v=3.3"></script>
+</body>
+
+</html>

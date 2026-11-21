@@ -1,4 +1,26 @@
-**/appsettings.Development.json
-**/bin/
-**/obj/
-**/.vs/
+## Visual Studio / .NET
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.db
+*.sqlite
+
+## OS Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+## Node / Frontend
+node_modules/
+.npm/
+
+## Temporary / Scratch
+scratch/
+*.tmp

@@ -1,0 +1,168 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TimeVerse — Schedule &amp; Exams</title>
+  <meta name="description" content="Weekly lecture timetable and upcoming exam countdown" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="../css/global.css?v=3.3" />
+  <link rel="stylesheet" href="../css/components.css?v=3.3" />
+  <link rel="stylesheet" href="../css/pages/schedule.css?v=3.3" />
+</head>
+<body>
+<div id="loading-screen" class="loading-screen">
+  <div class="spinner spinner-lg"></div>
+  <p class="text-muted loading-msg">Loading your schedule &amp; exams…</p>
+</div>
+<div class="bg-blobs"></div>
+
+<div class="app-layout" id="app">
+  <div class="main-content">
+    <main class="page-container page-enter" id="page-main">
+
+      <div class="page-header">
+        <div class="page-header-left">
+          <h1>📅 My Schedule &amp; Exams</h1>
+          <p>Weekly lecture timetable &amp; exam management</p>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-secondary" onclick="openAddExam()">📝 Add Exam</button>
+          <button class="btn btn-primary" onclick="openAddLecture()">＋ Add Lecture</button>
+        </div>
+      </div>
+
+      <div class="schedule-grid">
+
+        <!-- Weekly Timetable -->
+        <div>
+          <div class="card timetable-card">
+            <div class="card-header timetable-card-header">
+              <div class="card-title">🗓️ Weekly Timetable</div>
+            </div>
+            <div class="week-header" id="week-header"></div>
+            <div class="week-body" id="week-body"></div>
+          </div>
+        </div>
+
+        <!-- Exams Panel -->
+        <div class="exams-side-col">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">📝 Upcoming Exams</div>
+                <div class="card-subtitle" id="exam-count-label">Loading…</div>
+              </div>
+            </div>
+            <div class="exam-list-container" id="exam-list">
+              <div class="empty-state empty-state--padded">
+                <div class="empty-icon">📝</div>
+                <div class="empty-title">No exams scheduled</div>
+                <div class="empty-desc">Add an exam to track its countdown</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Lecture Modal (Connected to /api/Schedules) -->
+<div class="modal-overlay hidden" id="lecture-modal" onclick="closeModalOnOverlay(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title" id="lecture-modal-title">Add Lecture Schedule</h2>
+      <button class="modal-close" onclick="closeModal('lecture-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Course *</label>
+        <select id="lec-course" class="form-select"></select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Lecture Title / Topic</label>
+        <input type="text" id="lec-title" class="form-input" placeholder="e.g. Algorithms Lecture" />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Day of Week *</label>
+          <select id="lec-day" class="form-select">
+            <option value="0">Sunday</option>
+            <option value="1" selected>Monday</option>
+            <option value="2">Tuesday</option>
+            <option value="3">Wednesday</option>
+            <option value="4">Thursday</option>
+            <option value="5">Friday</option>
+            <option value="6">Saturday</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Location / Room</label>
+          <input type="text" id="lec-loc" class="form-input" placeholder="Hall B-204" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Start Time *</label>
+          <input type="time" id="lec-start" class="form-input" value="09:00" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">End Time *</label>
+          <input type="time" id="lec-end" class="form-input" value="11:00" />
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('lecture-modal')">Cancel</button>
+      <button class="btn btn-primary" id="save-lecture-btn" onclick="saveLecture()">Save Schedule</button>
+    </div>
+  </div>
+</div>
+
+<!-- Exam Modal (Connected to /api/Exams) -->
+<div class="modal-overlay hidden" id="exam-modal" onclick="closeModalOnOverlay(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title" id="exam-modal-title">Add Exam</h2>
+      <button class="modal-close" onclick="closeModal('exam-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Course *</label>
+        <select id="ex-course" class="form-select"></select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Exam Title *</label>
+        <input type="text" id="ex-title" class="form-input" placeholder="Midterm Exam / Final Exam" />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Exam Date *</label>
+          <input type="date" id="ex-date" class="form-input" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Location</label>
+          <input type="text" id="ex-loc" class="form-input" placeholder="Exam Hall A" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Notes &amp; Syllabus</label>
+        <input type="text" id="ex-notes" class="form-input" placeholder="Chapters 1-5, Formula sheet allowed" />
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('exam-modal')">Cancel</button>
+      <button class="btn btn-primary" id="save-exam-btn" onclick="saveExam()">Save Exam</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+
+<script src="../js/api.js?v=3.3"></script>
+<script src="../js/utils.js?v=3.3"></script>
+<script src="../js/pages/schedule.js?v=3.3"></script>
+</body>
+</html>

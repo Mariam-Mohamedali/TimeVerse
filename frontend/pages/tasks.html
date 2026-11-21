@@ -1,0 +1,163 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TimeVerse — My Tasks</title>
+  <meta name="description" content="Kanban board to track student tasks, deadlines and priorities" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="../css/global.css?v=3.3" />
+  <link rel="stylesheet" href="../css/components.css?v=3.3" />
+  <link rel="stylesheet" href="../css/pages/tasks.css?v=3.3" />
+</head>
+<body>
+<div id="loading-screen" class="loading-screen">
+  <div class="spinner spinner-lg"></div>
+  <p class="text-muted loading-msg">Loading your tasks…</p>
+</div>
+<div class="bg-blobs"></div>
+
+<div class="app-layout" id="app">
+  <div class="main-content">
+    <main class="page-container page-enter" id="page-main">
+
+      <div class="page-header">
+        <div class="page-header-left">
+          <h1>✅ My Tasks</h1>
+          <p>Track deadlines, prioritize coursework &amp; update progress</p>
+        </div>
+        <button class="btn btn-primary" onclick="openAddTask()">＋ Add Task</button>
+      </div>
+
+      <!-- Filters (Status, Priority, Course, Search) -->
+      <div class="filters-bar">
+        <div class="filter-group">
+          <span class="filter-label">Course:</span>
+          <select id="filter-course" class="form-select filter-select" onchange="applyFilters()">
+            <option value="">All Courses</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <span class="filter-label">Priority:</span>
+          <div class="tabs">
+            <button class="tab-btn active" data-priority="" onclick="setPriorityFilter(this, '')">All</button>
+            <button class="tab-btn" data-priority="2" onclick="setPriorityFilter(this, '2')">🔴 High</button>
+            <button class="tab-btn" data-priority="1" onclick="setPriorityFilter(this, '1')">🟡 Medium</button>
+            <button class="tab-btn" data-priority="0" onclick="setPriorityFilter(this, '0')">🟢 Low</button>
+          </div>
+        </div>
+        <div class="search-box search-box--right">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="task-search" placeholder="Search tasks…" oninput="applyFilters()" />
+        </div>
+      </div>
+
+      <!-- Kanban Board (Pending, In Progress, Completed) -->
+      <div class="kanban">
+
+        <!-- Pending -->
+        <div class="kanban-col">
+          <div class="kanban-col-header">
+            <div class="kanban-col-title">
+              <span class="kanban-col-dot kanban-col-dot--power"></span>
+              Pending
+            </div>
+            <span class="badge badge-primary" id="cnt-todo">0</span>
+          </div>
+          <div class="kanban-cards" id="col-todo"></div>
+          <div class="kanban-add-row">
+            <button class="kanban-add-btn" onclick="openAddTask(0)">＋ Add task</button>
+          </div>
+        </div>
+
+        <!-- In Progress -->
+        <div class="kanban-col">
+          <div class="kanban-col-header">
+            <div class="kanban-col-title">
+              <span class="kanban-col-dot kanban-col-dot--soul"></span>
+              In Progress
+            </div>
+            <span class="badge badge-soul" id="cnt-progress">0</span>
+          </div>
+          <div class="kanban-cards" id="col-progress"></div>
+          <div class="kanban-add-row">
+            <button class="kanban-add-btn" onclick="openAddTask(1)">＋ Add task</button>
+          </div>
+        </div>
+
+        <!-- Completed -->
+        <div class="kanban-col">
+          <div class="kanban-col-header">
+            <div class="kanban-col-title">
+              <span class="kanban-col-dot kanban-col-dot--time"></span>
+              Completed
+            </div>
+            <span class="badge badge-success" id="cnt-done">0</span>
+          </div>
+          <div class="kanban-cards" id="col-done"></div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Add / Edit Task Modal (Connected to /api/StudentTasks) -->
+<div class="modal-overlay hidden" id="task-modal" onclick="closeModalOnOverlay(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title" id="task-modal-title">Add New Task</h2>
+      <button class="modal-close" onclick="closeModal('task-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Task Title *</label>
+        <input type="text" id="t-title" class="form-input" placeholder="e.g. Assignment 1 Submission" />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Course *</label>
+          <select id="t-course" class="form-select"></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Priority *</label>
+          <select id="t-priority" class="form-select">
+            <option value="2">🔴 High</option>
+            <option value="1" selected>🟡 Medium</option>
+            <option value="0">🟢 Low</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Due Date (Deadline) *</label>
+          <input type="date" id="t-due" class="form-input" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Status</label>
+          <select id="t-status" class="form-select">
+            <option value="0">Pending</option>
+            <option value="1">In Progress</option>
+            <option value="2">Completed</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Description / Instructions</label>
+        <textarea id="t-desc" class="form-textarea" placeholder="Detailed requirements and guidelines…"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('task-modal')">Cancel</button>
+      <button class="btn btn-primary" id="save-task-btn" onclick="saveTask()">Save Task</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+
+<script src="../js/api.js?v=3.3"></script>
+<script src="../js/utils.js?v=3.3"></script>
+<script src="../js/pages/tasks.js?v=3.3"></script>
+</body>
+</html>

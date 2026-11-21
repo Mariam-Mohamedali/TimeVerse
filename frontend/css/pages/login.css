@@ -1,0 +1,301 @@
+/* ═══════════════════════════════════════════════════════════════
+   login.css  —  Login / Register page styles
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Root body layout ── */
+body {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ── Split Layout ── */
+.login-left {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-8);
+  position: relative;
+}
+
+.login-right {
+  width: 520px;
+  background: linear-gradient(135deg, #0d0d2b 0%, #09091b 100%);
+  border-left: 1px solid var(--clr-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-10);
+  position: relative;
+  overflow: hidden;
+}
+
+.login-right::before {
+  content: '';
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(155,48,217,.2) 0%, transparent 70%);
+  bottom: -100px;
+  left: -100px;
+}
+
+.login-right::after {
+  content: '';
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(30,144,255,.12) 0%, transparent 70%);
+  top: -50px;
+  right: -50px;
+}
+
+/* ── Hero Side ── */
+.hero-content {
+  max-width: 500px;
+  text-align: center;
+}
+
+.hero-logo-wrap {
+  margin-bottom: var(--sp-6);
+  position: relative;
+  display: inline-block;
+}
+
+.hero-logo {
+  width: 100px;
+  height: 100px;
+  border-radius: 28px;
+  background: var(--grad-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  margin: 0 auto var(--sp-4);
+  box-shadow: 0 8px 48px var(--clr-primary-glow), 0 0 80px rgba(155,48,217,.2);
+  animation: float 3s ease-in-out infinite, glow-pulse 3s ease-in-out infinite;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: var(--fs-4xl);
+  font-weight: 900;
+  letter-spacing: .04em;
+  background: var(--grad-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: var(--sp-2);
+}
+
+.hero-subtitle {
+  font-size: var(--fs-sm);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--clr-text-faint);
+  margin-bottom: var(--sp-6);
+}
+
+.hero-desc {
+  font-size: var(--fs-base);
+  color: var(--clr-text-muted);
+  line-height: 1.8;
+  margin-bottom: var(--sp-8);
+}
+
+/* ── Infinity Stones Row ── */
+.stones-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-8);
+}
+
+.stone {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .9rem;
+  border: 2px solid;
+  position: relative;
+  cursor: default;
+  transition: transform var(--t-base);
+}
+
+.stone:hover {
+  transform: scale(1.2) translateY(-4px);
+}
+
+.stone::after {
+  content: attr(data-name);
+  position: absolute;
+  bottom: -20px;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.stone-sp { background: rgba(30,144,255,.2);  border-color: var(--stone-space);   color: var(--stone-space);   box-shadow: 0 0 15px var(--glow-space);   }
+.stone-mi { background: rgba(245,197,24,.2);  border-color: var(--stone-mind);    color: var(--stone-mind);    box-shadow: 0 0 15px var(--glow-mind);    }
+.stone-re { background: rgba(230,50,0,.2);    border-color: var(--stone-reality); color: var(--stone-reality); box-shadow: 0 0 15px var(--glow-reality); }
+.stone-po { background: rgba(155,48,217,.2);  border-color: var(--stone-power);   color: var(--stone-power);   box-shadow: 0 0 15px var(--glow-power);   }
+.stone-ti { background: rgba(0,212,106,.2);   border-color: var(--stone-time);    color: var(--stone-time);    box-shadow: 0 0 15px var(--glow-time);    }
+.stone-so { background: rgba(240,120,32,.2);  border-color: var(--stone-soul);    color: var(--stone-soul);    box-shadow: 0 0 15px var(--glow-soul);    }
+
+/* ── Form Card ── */
+.form-card {
+  background: rgba(15,15,38,.95);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--r-2xl);
+  padding: var(--sp-8);
+  width: 100%;
+  max-width: 420px;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 20px 80px rgba(0,0,0,.7);
+}
+
+.form-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--grad-primary);
+  border-radius: var(--r-2xl) var(--r-2xl) 0 0;
+}
+
+.form-card-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-6);
+}
+
+.form-card-logo-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--r-lg);
+  background: var(--grad-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  box-shadow: 0 4px 16px var(--clr-primary-glow);
+}
+
+.form-card-logo-text .name {
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  font-weight: 900;
+  letter-spacing: .05em;
+  background: var(--grad-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.form-card-logo-text .sub {
+  font-size: 9px;
+  color: var(--clr-text-faint);
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+
+/* ── Auth Tabs ── */
+.auth-tabs {
+  display: flex;
+  margin-bottom: var(--sp-6);
+}
+
+.auth-tab-btn {
+  flex: 1;
+  padding: 10px;
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: var(--clr-text-faint);
+  border-bottom: 2px solid transparent;
+  transition: all var(--t-base);
+  text-align: center;
+}
+
+.auth-tab-btn.active {
+  color: var(--stone-power);
+  border-bottom-color: var(--stone-power);
+}
+
+/* ── Divider ── */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin: var(--sp-4) 0;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--clr-border);
+}
+
+.divider span {
+  font-size: 10px;
+  color: var(--clr-text-faint);
+  white-space: nowrap;
+  letter-spacing: .1em;
+}
+
+/* ── Demo Button ── */
+.demo-btn {
+  width: 100%;
+  padding: 11px;
+  background: rgba(155,48,217,.12);
+  border: 1px dashed var(--clr-border-hover);
+  border-radius: var(--r-lg);
+  color: var(--stone-power);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--t-base);
+  letter-spacing: .03em;
+}
+
+.demo-btn:hover {
+  background: rgba(155,48,217,.2);
+  box-shadow: 0 0 20px rgba(155,48,217,.2);
+}
+
+/* ── Tab Panels ── */
+.tab-panel {
+  display: none;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+.tab-panel.active {
+  display: flex;
+}
+
+/* ── Full-width buttons inside form ── */
+.btn-full {
+  width: 100%;
+  margin-top: var(--sp-2);
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .login-left  { display: none; }
+  .login-right { width: 100%; border-left: none; }
+}

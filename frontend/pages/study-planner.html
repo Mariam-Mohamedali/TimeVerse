@@ -1,0 +1,180 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TimeVerse — Study Plans &amp; Sessions</title>
+  <meta name="description" content="Manage study plans, scheduled sessions, and link tasks" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="../css/global.css?v=3.3" />
+  <link rel="stylesheet" href="../css/components.css?v=3.3" />
+  <link rel="stylesheet" href="../css/pages/study-planner.css?v=3.3" />
+</head>
+<body>
+<div id="loading-screen" class="loading-screen">
+  <div class="spinner spinner-lg"></div>
+  <p class="text-muted loading-msg">Loading Study Plans &amp; Sessions…</p>
+</div>
+<div class="bg-blobs"></div>
+
+<div class="app-layout" id="app">
+  <div class="main-content">
+    <main class="page-container page-enter" id="page-main">
+
+      <div class="page-header">
+        <div class="page-header-left">
+          <h1>🧠 Study Plans &amp; Sessions</h1>
+          <p>Organize academic study plans &amp; track session completion</p>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-secondary" onclick="openAddPlan()">📋 Create Study Plan</button>
+          <button class="btn btn-primary" onclick="openAddSession()">＋ Add Study Session</button>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="planner-stats stagger">
+        <div class="stat-card">
+          <div class="stat-icon purple">📋</div>
+          <div>
+            <div class="stat-value" id="stat-plans">0</div>
+            <div class="stat-label">Active Study Plans</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon blue">⏱️</div>
+          <div>
+            <div class="stat-value" id="stat-sessions">0</div>
+            <div class="stat-label">Total Sessions</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green">✅</div>
+          <div>
+            <div class="stat-value" id="stat-completed">0</div>
+            <div class="stat-label">Completed Sessions</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Grid -->
+      <div class="planner-grid">
+
+        <!-- Left / Sessions List -->
+        <div>
+          <!-- Study Plan Filter Chips -->
+          <div class="filter-group plan-filter-row">
+            <span class="filter-label">Filter by Plan:</span>
+            <div class="tabs" id="plan-filter-tabs">
+              <button class="tab-btn active" onclick="filterByPlan(null, this)">All Plans</button>
+            </div>
+          </div>
+
+          <div id="sessions-container">
+            <div class="empty-state empty-state--padded">
+              <div class="empty-icon">🗓️</div>
+              <div class="empty-title">No study sessions yet</div>
+              <div class="empty-desc">Create a study plan and add your first session.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right / Study Plans Overview Panel -->
+        <div class="suggest-panel">
+          <div class="suggest-title">📋 Study Plans</div>
+          <p class="suggest-desc">
+            Define target study periods with start &amp; end dates to stay on track for exams.
+          </p>
+
+          <div id="plans-list" class="plans-list-container">
+            <!-- Populated dynamically -->
+          </div>
+
+          <button class="btn btn-primary btn-full-width" onclick="openAddPlan()">
+            ＋ Create New Plan
+          </button>
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- Create / Edit Study Plan Modal (Connected to /api/StudyPlans) -->
+<div class="modal-overlay hidden" id="plan-modal" onclick="closeModalOnOverlay(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title" id="plan-modal-title">Create Study Plan</h2>
+      <button class="modal-close" onclick="closeModal('plan-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Plan Title *</label>
+        <input type="text" id="plan-title" class="form-input" placeholder="e.g. Midterms Preparation Plan" />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Start Date *</label>
+          <input type="date" id="plan-start" class="form-input" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">End Date *</label>
+          <input type="date" id="plan-end" class="form-input" />
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('plan-modal')">Cancel</button>
+      <button class="btn btn-primary" id="save-plan-btn" onclick="savePlan()">Save Plan</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add / Edit Study Session Modal (Connected to /api/StudySessions) -->
+<div class="modal-overlay hidden" id="session-modal" onclick="closeModalOnOverlay(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title" id="sess-modal-title">Add Study Session</h2>
+      <button class="modal-close" onclick="closeModal('session-modal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Study Plan *</label>
+        <select id="sess-plan" class="form-select"></select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Link to Task (Optional)</label>
+        <select id="sess-task" class="form-select">
+          <option value="">None (Independent session)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Session Topic / Title *</label>
+        <input type="text" id="sess-title" class="form-input" placeholder="e.g. Solving past exams on Trees" />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Session Date &amp; Time *</label>
+          <input type="datetime-local" id="sess-date" class="form-input" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Duration (Minutes) *</label>
+          <input type="number" id="sess-duration" class="form-input" min="15" max="480" step="15" value="60" />
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('session-modal')">Cancel</button>
+      <button class="btn btn-primary" id="save-sess-btn" onclick="saveSession()">Save Session</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+
+<script src="../js/api.js?v=3.3"></script>
+<script src="../js/utils.js?v=3.3"></script>
+<script src="../js/pages/study-planner.js?v=3.3"></script>
+</body>
+</html>

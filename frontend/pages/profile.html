@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TimeVerse — Profile &amp; Notifications</title>
+  <meta name="description" content="Manage your profile, account settings, and notifications" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="../css/global.css?v=3.3" />
+  <link rel="stylesheet" href="../css/components.css?v=3.3" />
+  <link rel="stylesheet" href="../css/pages/profile.css?v=3.3" />
+</head>
+<body>
+<div id="loading-screen" class="loading-screen">
+  <div class="spinner spinner-lg"></div>
+  <p class="text-muted loading-msg">Loading your profile…</p>
+</div>
+<div class="bg-blobs"></div>
+
+<div class="app-layout" id="app">
+  <div class="main-content">
+    <main class="page-container page-enter" id="page-main">
+
+      <div class="page-header">
+        <div class="page-header-left">
+          <h1>👤 Profile &amp; Notifications</h1>
+          <p>Manage account settings and view system reminders</p>
+        </div>
+      </div>
+
+      <div class="profile-grid">
+
+        <!-- Left Column: Profile Card & Danger Zone -->
+        <div class="profile-column-stack">
+          <div class="profile-card">
+            <div class="profile-cover"></div>
+            <div class="profile-avatar-wrap">
+              <div class="profile-avatar-big" id="profile-avatar">U</div>
+            </div>
+            <div class="profile-info">
+              <div class="profile-name" id="profile-name">Student</div>
+              <div class="profile-uni" id="profile-email"></div>
+            </div>
+
+            <div class="profile-mini-stats">
+              <div class="mini-stat">
+                <div class="mini-stat-val" id="mini-courses">—</div>
+                <div class="mini-stat-lbl">Courses</div>
+              </div>
+              <div class="mini-stat">
+                <div class="mini-stat-val" id="mini-tasks">—</div>
+                <div class="mini-stat-lbl">Pending</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Danger Zone -->
+          <div class="card danger-card">
+            <div class="card-header">
+              <div class="card-title danger-title">⚠️ Account Actions</div>
+            </div>
+            <p class="text-muted text-sm danger-desc">
+              Sign out from this session on this browser.
+            </p>
+            <button class="btn btn-danger" onclick="handleLogout()">🚪 Log Out</button>
+          </div>
+        </div>
+
+        <!-- Right Column: Notifications Center (Image 1 Item 10) -->
+        <div class="profile-column-stack">
+
+          <!-- Notifications Center -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">🔔 Notifications Center</div>
+                <div class="card-subtitle" id="notif-count-subtitle">Loading…</div>
+              </div>
+              <button class="btn btn-sm btn-ghost" onclick="markAllNotifsRead()">Mark all read</button>
+            </div>
+
+            <!-- Filters: All, Exam Reminders, Task Reminders -->
+            <div class="tabs profile-tabs">
+              <button class="tab-btn active" data-filter="all" onclick="filterNotifs('all', this)">All</button>
+              <button class="tab-btn" data-filter="exam" onclick="filterNotifs('exam', this)">📝 Exam Reminders</button>
+              <button class="tab-btn" data-filter="task" onclick="filterNotifs('task', this)">⏰ Task Reminders</button>
+            </div>
+
+            <!-- Notification List -->
+            <div class="profile-settings-stack" id="profile-notif-list">
+              <div class="empty-state empty-state--padded">
+                <div class="empty-icon">🔔</div>
+                <div class="empty-title">No notifications yet</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+
+<script src="../js/api.js?v=3.3"></script>
+<script src="../js/utils.js?v=3.3"></script>
+<script src="../js/pages/profile.js?v=3.3"></script>
+</body>
+</html>
