@@ -12,6 +12,13 @@ if (window.location.protocol === 'file:') {
 
 const API_BASE = localStorage.getItem('tv_api_base') || 'http://localhost:5065/api';
 
+function dateInputToIso(dateValue) {
+  if (/^\d{4}-\d{2}-\d{2}$/.test(dateValue)) {
+    return new Date(`${dateValue}T23:59:59.999`).toISOString();
+  }
+  return new Date(dateValue).toISOString();
+}
+
 /* ── Local Storage Helper (User-Scoped Storage) ── */
 function getCurrentUserId() {
   return localStorage.getItem('tv_student_id') || '0';
@@ -513,7 +520,7 @@ window.API = {
       const payload = {
         courseId: Number(courseId),
         title,
-        examDate: new Date(examDate).toISOString(),
+        examDate: dateInputToIso(examDate),
         location: location || '',
         notes: notes || ''
       };
@@ -538,7 +545,7 @@ window.API = {
     async update(id, { title, examDate, location, notes, courseId }) {
       const payload = {
         title,
-        examDate: new Date(examDate).toISOString(),
+        examDate: dateInputToIso(examDate),
         location: location || '',
         notes: notes || ''
       };
@@ -599,7 +606,7 @@ window.API = {
         courseId: Number(courseId),
         title,
         description: description || '',
-        dueDate: new Date(dueDate).toISOString(),
+        dueDate: dateInputToIso(dueDate),
         priority: typeof priority === 'string' ? (priority === 'High' ? 2 : priority === 'Medium' ? 1 : 0) : Number(priority || 0),
       };
       try {
@@ -640,7 +647,7 @@ window.API = {
       const payload = {
         title: updates.title !== undefined ? updates.title : existing.title,
         description: updates.description !== undefined ? updates.description : existing.description,
-        dueDate: updates.dueDate ? new Date(updates.dueDate).toISOString() : existing.dueDate,
+        dueDate: updates.dueDate ? dateInputToIso(updates.dueDate) : existing.dueDate,
         priority: updates.priority !== undefined
           ? (typeof updates.priority === 'string' ? (updates.priority === 'High' ? 2 : updates.priority === 'Medium' ? 1 : 0) : Number(updates.priority))
           : existing.priority,

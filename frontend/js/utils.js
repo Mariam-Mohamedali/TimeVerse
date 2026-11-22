@@ -157,8 +157,11 @@ function initLayout(activePage = '') {
 }
 
 /* ── Notification Dropdown ───────────────────────────────────────── */
+let _knownNotificationIds = null;
+
 function _initNotifDropdown() {
   checkNotifDot();
+  setInterval(() => checkNotifDot(true), 60_000);
   document.addEventListener('click', e => {
     const wrap = document.getElementById('notif-btn-wrap');
     if (wrap && !wrap.contains(e.target)) closeNotifDropdown();
@@ -184,12 +187,28 @@ function closeNotifDropdown() {
   document.getElementById('notif-bell')?.classList.remove('open');
 }
 
-async function checkNotifDot() {
+async function checkNotifDot(announceNew = false) {
   try {
     const notifs = await API.notifications.getAll();
+    const currentIds = new Set(notifs.map(n => String(n.id)));
+
+    if (announceNew && _knownNotificationIds) {
+      notifs
+        .filter(n =>
+          !_knownNotificationIds.has(String(n.id)) &&
+          (n.sentAt || new Date(n.scheduledAt).getTime() <= Date.now())
+        )
+        .forEach(n => showToast(`Reminder: ${n.title}`, 'info'));
+    }
+
+    _knownNotificationIds = currentIds;
+
     const dot = document.getElementById('notif-dot');
     const hasUnread = notifs.some(n => n.isRead === false || n.read === false);
     if (dot) dot.classList.toggle('hidden', !hasUnread);
+
+    const dropdown = document.getElementById('notif-dropdown');
+    if (dropdown && !dropdown.classList.contains('hidden')) _loadNotifList();
   } catch {}
 }
 
@@ -419,7 +438,11 @@ function todayStr() {
 
 function daysUntil(dateStr) {
   if (!dateStr) return 999;
-  const diff = new Date(dateStr) - new Date(todayStr());
+  const targetDate = new Date(dateStr);
+  const currentDate = new Date();
+  targetDate.setHours(0, 0, 0, 0);
+  currentDate.setHours(0, 0, 0, 0);
+  const diff = targetDate - currentDate;
   return Math.round(diff / (1000 * 60 * 60 * 24));
 }
 

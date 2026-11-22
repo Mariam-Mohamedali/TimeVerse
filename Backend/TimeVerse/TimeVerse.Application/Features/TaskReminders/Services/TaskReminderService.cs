@@ -68,14 +68,19 @@ public class TaskReminderService : ITaskReminderService
 
         foreach (var exam in exams)
         {
+            var isFinalExam = exam.Title.Contains(
+                "final",
+                StringComparison.OrdinalIgnoreCase);
+
             var notification = new Notification
             {
                 StudentId = exam.Course.StudentId,
                 ExamId = exam.Id,
 
-                Title = "Exam Reminder",
+                Title = isFinalExam ? "Final Exam Reminder" : "Exam Reminder",
 
-                Message = $"Your exam '{exam.Title}' is scheduled for " +
+                Message = $"Your {(isFinalExam ? "final exam" : "exam")} " +
+                          $"'{exam.Title}' is scheduled for " +
                           $"{exam.ExamDate:yyyy-MM-dd HH:mm}.",
 
                 ScheduledAt = exam.ExamDate.AddHours(-24),
